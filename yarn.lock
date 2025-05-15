@@ -2494,6 +2494,14 @@ fs.realpath@^1.0.0:
   resolved "https://registry.npmjs.org/fs.realpath/-/fs.realpath-1.0.0.tgz"
   integrity sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==
 
+fsevents@^1.0.0, fsevents@1.0.17:
+  version "1.0.17"
+  resolved "https://registry.npmjs.org/fsevents/-/fsevents-1.0.17.tgz"
+  integrity sha512-gBbKkRNVcWBCTLYlHbZIKWduqDbsnflpsAwY2O8jtyFtRtArU3kk0qb6Yckx3v5TfcdvyTrrd/fYR7aeyKRGUQ==
+  dependencies:
+    nan "^2.3.0"
+    node-pre-gyp "^0.6.29"
+
 function-bind@^1.0.2:
   version "1.1.0"
   resolved "https://registry.npmjs.org/function-bind/-/function-bind-1.1.0.tgz"
@@ -3873,6 +3881,11 @@ mute-stream@0.0.5:
   version "0.0.5"
   resolved "https://registry.npmjs.org/mute-stream/-/mute-stream-0.0.5.tgz"
   integrity sha512-EbrziT4s8cWPmzr47eYVW3wimS4HsvlnV5ri1xw1aR6JQo/OrJX5rkl32K/QQHdxeabJETtfeaROGhd8W7uBgg==
+
+nan@^2.3.0:
+  version "2.6.2"
+  resolved "https://registry.npmjs.org/nan/-/nan-2.6.2.tgz"
+  integrity sha512-K3AyXBwEX6HF3eV46B9YLyyJ66DiBI66v+pTQfz+AyMOdOtg2aH/3WNSDbb3cVDLfPEJmx70aDu60aDTG5x+sw==
 
 natural-compare@^1.4.0:
   version "1.4.0"

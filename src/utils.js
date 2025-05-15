@@ -56,3 +56,23 @@ export const parseUserInput = str => {
     format
   };
 }
+
+//Dynamic values
+export const getMinMaxAccounts = accounts => {
+  const ids = accounts.map(acc => acc.id);
+  return {
+    min: Math.min(...ids),
+    max: Math.max(...ids),
+  };
+};
+
+export const getMinMaxPeriods = journalEntries => {
+  const periods = journalEntries.map(entry =>
+    typeof entry.period === 'string' ? stringToDate(entry.period) : entry.period 
+  );
+
+  return {
+    min: new Date(Math.min(...periods.map(date => date.getTime()))),
+    max: new Date(Math.max(...periods.map(date => date.getTime()))),
+  };
+};
