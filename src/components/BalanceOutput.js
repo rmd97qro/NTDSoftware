@@ -15,8 +15,12 @@ class BalanceOutput extends Component {
           <br />
           Balance from account {this.props.userInput.startAccount || '*'}
           {' '}to {this.props.userInput.endAccount || '*'}
-          {' '}from period {utils.dateToString(this.props.userInput.startPeriod)}
-          {' '}to {utils.dateToString(this.props.userInput.endPeriod)}
+          {' '}from period {this.props.userInput.startPeriod instanceof Date
+                      ? utils.dateToString(this.props.userInput.startPeriod)
+                      : '*'}
+          {' '}to {this.props.userInput.endPeriod instanceof Date
+                    ? utils.dateToString(this.props.userInput.endPeriod)
+                    : '*'}
         </p>
 
         {this.props.userInput.format === 'CSV' ? (

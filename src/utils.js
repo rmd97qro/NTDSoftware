@@ -1,11 +1,25 @@
 export const stringToDate = str => {
-  if (str === '*') {
-    return new Date(str);
+  if (str === '*') return '*';
+
+  const MONTHS = {
+    JAN: 0, FEB: 1, MAR: 2, APR: 3,
+    MAY: 4, JUN: 5, JUL: 6, AUG: 7,
+    SEP: 8, OCT: 9, NOV: 10, DEC: 11
+  };
+
+  const [monthStr, yearStr] = str.toUpperCase().split('-');
+
+  if(!MONTHS.hasOwnProperty(monthStr) || isNaN(yearStr)) {
+    console.warn(`Invalid period string: ${str}`);
+    return null;
   }
 
-  const [month, year] = str.split('-');
-  return new Date(`${month} 1 20${year}`);
-}
+  const month = MONTHS[monthStr];
+  const year = parseInt(yearStr.length === 2 ? `20${yearStr}` : yearStr, 10);
+
+  return new Date(year, month, 1);
+ 
+};
 
 export const dateToString = d => {
   if (isNaN(d.valueOf())) {
