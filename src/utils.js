@@ -52,9 +52,10 @@ export const parseCSV = str => {
 }
 
 export const toCSV = arr => {
-  let headers = Object.keys(arr[0]).join(';');
-  let lines = arr.map(obj => Object.values(obj).join(';'));
-  return [headers, ...lines].join(';\n');
+  if(!arr || arr.length === 0) return '';
+  const headers = Object.keys(arr[0]).join(';');
+  const lines = arr.map(obj => Object.values(obj).join(';'));
+  return [headers, ...lines].join(';\n');a
 }
 
 export const parseUserInput = str => {

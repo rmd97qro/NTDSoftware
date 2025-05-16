@@ -24,7 +24,16 @@ class BalanceOutput extends Component {
         </p>
 
         {this.props.userInput.format === 'CSV' ? (
-          <pre>{utils.toCSV(this.props.balance)}</pre>
+          <div>
+            <pre>{utils.toCSV(this.props.balance)}</pre>
+            <a
+              href={URL.createObjectURL(new Blob([utils.toCSV(this.props.balance)], { type: 'text/csv'}))}
+              download="balance.csv"
+              className="btn btn-sm btn-primary"
+            >
+              Download CSV
+            </a>
+          </div>
         ) : null}
 
         {this.props.userInput.format === 'HTML' ? (
