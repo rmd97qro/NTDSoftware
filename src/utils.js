@@ -1,11 +1,25 @@
 export const stringToDate = str => {
-  if (str === '*') {
-    return new Date(str);
+  if (str === '*') return '*';
+
+  const MONTHS = {
+    JAN: 0, FEB: 1, MAR: 2, APR: 3,
+    MAY: 4, JUN: 5, JUL: 6, AUG: 7,
+    SEP: 8, OCT: 9, NOV: 10, DEC: 11
+  };
+
+  const [monthStr, yearStr] = str.toUpperCase().split('-');
+
+  if(!MONTHS.hasOwnProperty(monthStr) || isNaN(yearStr)) {
+    console.warn(`Invalid period string: ${str}`);
+    return null;
   }
 
-  const [month, year] = str.split('-');
-  return new Date(`${month} 1 20${year}`);
-}
+  const month = MONTHS[monthStr];
+  const year = parseInt(yearStr.length === 2 ? `20${yearStr}` : yearStr, 10);
+
+  return new Date(year, month, 1);
+ 
+};
 
 export const dateToString = d => {
   if (isNaN(d.valueOf())) {
@@ -38,21 +52,74 @@ export const parseCSV = str => {
 }
 
 export const toCSV = arr => {
-  let headers = Object.keys(arr[0]).join(';');
-  let lines = arr.map(obj => Object.values(obj).join(';'));
+  if(!(arr && arr.length)) return '';
+  const headers = Object.keys(arr[0]).join(';');
+  const lines = arr.map(obj => Object.values(obj).join(';'));
   return [headers, ...lines].join(';\n');
 }
 
 export const parseUserInput = str => {
-  const [
-    startAccount, endAccount, startPeriod, endPeriod, format
-  ] = str.split(' ');
+  const parts = str.trim().split(' ');
+ 
+  const getSafe = (arr, index) => arr[index] || '*';
+
+  const rawStartAcc = getSafe(parts, 0);
+  const rawEndAcc   = getSafe(parts, 1);
+  const rawStartPer = getSafe(parts, 2);
+  const rawEndPer   = getSafe(parts, 3);
+  const rawFormat   = getSafe(parts, 4);  
+
+  const startAccount = rawStartAcc === '*' || isNaN(parseInt(rawStartAcc, 10))
+    ? '*'
+    : parseInt(rawStartAcc, 10);
+  
+  const endAccount = rawEndAcc === '*' || isNaN(parseInt(rawEndAcc, 10))
+    ? '*'
+    : parseInt(rawEndAcc, 10);
+
+  const startPeriod = rawStartPer === '*'
+    ? '*'
+    : stringToDate(rawStartPer);
+
+  const endPeriod = rawEndPer === '*'
+    ? '*'
+    : stringToDate(rawEndPer);
+
+  if (startPeriod === null) console.warn(`Invalid start period: ${rawStartPer}`);
+  if (endPeriod === null) console.warn(`Invalid end period: ${rawEndPer}`);
+
+  let format = 'HTML';
+  if(rawFormat){
+    const upper = rawFormat.toUpperCase();
+    if(upper === 'CSV' || upper === 'HTML'){
+      format = upper;
+    }
+  }
+  return{
+    startAccount,
+    endAccount,
+    startPeriod,
+    endPeriod,
+    format
+  }
+}
+
+//Dynamic values
+export const getMinMaxAccounts = accounts => {
+  const ids = accounts.map(acc => acc.id);
+  return {
+    min: Math.min(...ids),
+    max: Math.max(...ids),
+  };
+};
+
+export const getMinMaxPeriods = journalEntries => {
+  const periods = journalEntries.map(entry =>
+    typeof entry.period === 'string' ? stringToDate(entry.period) : entry.period 
+  );
 
   return {
-    startAccount: startAccount === '*' ? '*' : parseInt(startAccount, 10),
-    endAccount: endAccount === '*' ? '*' : parseInt(endAccount, 10),
-    startPeriod: startPeriod === '*' ? '*' :  stringToDate(startPeriod),
-    endPeriod: endPeriod === '*' ? '*' :  stringToDate(endPeriod),
-    format
+    min: new Date(Math.min(...periods.map(date => date.getTime()))),
+    max: new Date(Math.max(...periods.map(date => date.getTime()))),
   };
-}
+};

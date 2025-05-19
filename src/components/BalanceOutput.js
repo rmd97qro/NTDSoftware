@@ -7,7 +7,6 @@ class BalanceOutput extends Component {
   render() {
     if (!this.props.userInput.format) return null;
 
-    console.log(this.props)
     return (
       <div className='output'>
         <p>
@@ -15,12 +14,25 @@ class BalanceOutput extends Component {
           <br />
           Balance from account {this.props.userInput.startAccount || '*'}
           {' '}to {this.props.userInput.endAccount || '*'}
-          {' '}from period {utils.dateToString(this.props.userInput.startPeriod)}
-          {' '}to {utils.dateToString(this.props.userInput.endPeriod)}
+          {' '}from period {this.props.userInput.startPeriod instanceof Date
+                      ? utils.dateToString(this.props.userInput.startPeriod)
+                      : '*'}
+          {' '}to {this.props.userInput.endPeriod instanceof Date
+                    ? utils.dateToString(this.props.userInput.endPeriod)
+                    : '*'}
         </p>
 
         {this.props.userInput.format === 'CSV' ? (
-          <pre>{utils.toCSV(this.props.balance)}</pre>
+          <div>
+            <pre>{utils.toCSV(this.props.balance)}</pre>
+            <a
+              href={URL.createObjectURL(new Blob([utils.toCSV(this.props.balance)], { type: 'text/csv'}))}
+              download="balance.csv"
+              className="btn btn-sm btn-primary"
+            >
+              Download CSV
+            </a>
+          </div>
         ) : null}
 
         {this.props.userInput.format === 'HTML' ? (
