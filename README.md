@@ -42,3 +42,83 @@ Parsing input fields and storing in Redux has already been implemented; it's up 
 ## Post challenge
 
 After you're done, commit your changes, push to your GitHub and send us a link.
+
+# Journal Entries Filter App
+
+> Full-stack Django + React challenge – completed and extended for production-readiness.  
+> **Reto Full-stack Django + React – completado y mejorado para producción.**
+
+---
+
+## 🧾 Project Description 
+
+This app processes a set of accounting journal entries and account definitions. Users can filter results by account and period ranges. Supports both HTML and CSV outputs.
+
+---
+
+## 🧠 Key Features 
+
+- Account range filtering (`startAccount`, `endAccount`)
+- Period range filtering with `JAN-16` style parsing
+- Wildcard (`*`) supported for dynamic filters
+- Period parsing: `"JAN-16"` → JavaScript `Date`
+- Output in HTML or downloadable CSV
+- Input validation and error resilience
+
+---
+
+## ✅ Improvements Applied 
+
+| Feature               | Description                                                               |
+|-----------------------|---------------------------------------------------------------------------|
+| 🔁 Dynamic Wildcards  | Uses real min/max values from dataset instead of static Infinity values.  |
+| 📅 Date Parsing       | Converts `JAN-16` format to JavaScript `Date`.                            |
+| 📤 CSV Output         | Adds clean CSV output and optional download link.                         |
+| ⚠️ Input Validation   | Invalid inputs fall back to defaults and log warnings.                    |
+| 🧪 Unit Testing       | Comprehensive Jest test suite.                                            |
+
+---
+
+## 🚀 Run Locally 
+
+```bash
+# Install dependencies / Instalar dependencias
+npm install
+
+# Start dev server / Iniciar servidor de desarrollo
+npm start
+
+# Run tests / Ejecutar pruebas
+npm test
+
+---
+
+Unit Tests Implemented 
+
+    stringToDate.test.js
+
+    parseUserInput.test.js
+
+    filterJournalEntries.test.js
+
+    toCSV.test.js
+
+    getMinMaxPeriods.test.js
+
+---
+Project Structure
+src/
+├── components/
+│   └── BalanceOutput.js
+├── __tests__/
+│   ├── stringToDate.test.js
+│   ├── parseUserInput.test.js
+│   ├── filterJournalEntries.test.js
+│   ├── toCSV.test.js
+│   └── getMinMaxPeriods.test.js
+├── utils.js
+├── actions/
+│   └── index.js
+
+Author: Raúl Mendoza
+GITHUB: https://github.com/rmd97qro/NDR

@@ -7,7 +7,6 @@ class BalanceOutput extends Component {
   render() {
     if (!this.props.userInput.format) return null;
 
-    console.log(this.props)
     return (
       <div className='output'>
         <p>

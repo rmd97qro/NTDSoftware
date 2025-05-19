@@ -52,24 +52,56 @@ export const parseCSV = str => {
 }
 
 export const toCSV = arr => {
-  if(!arr || arr.length === 0) return '';
+  if(!(arr && arr.length)) return '';
   const headers = Object.keys(arr[0]).join(';');
   const lines = arr.map(obj => Object.values(obj).join(';'));
-  return [headers, ...lines].join(';\n');a
+  return [headers, ...lines].join(';\n');
 }
 
 export const parseUserInput = str => {
-  const [
-    startAccount, endAccount, startPeriod, endPeriod, format
-  ] = str.split(' ');
+  const parts = str.trim().split(' ');
+ 
+  const getSafe = (arr, index) => arr[index] || '*';
 
-  return {
-    startAccount: startAccount === '*' ? '*' : parseInt(startAccount, 10),
-    endAccount: endAccount === '*' ? '*' : parseInt(endAccount, 10),
-    startPeriod: startPeriod === '*' ? '*' :  stringToDate(startPeriod),
-    endPeriod: endPeriod === '*' ? '*' :  stringToDate(endPeriod),
+  const rawStartAcc = getSafe(parts, 0);
+  const rawEndAcc   = getSafe(parts, 1);
+  const rawStartPer = getSafe(parts, 2);
+  const rawEndPer   = getSafe(parts, 3);
+  const rawFormat   = getSafe(parts, 4);  
+
+  const startAccount = rawStartAcc === '*' || isNaN(parseInt(rawStartAcc, 10))
+    ? '*'
+    : parseInt(rawStartAcc, 10);
+  
+  const endAccount = rawEndAcc === '*' || isNaN(parseInt(rawEndAcc, 10))
+    ? '*'
+    : parseInt(rawEndAcc, 10);
+
+  const startPeriod = rawStartPer === '*'
+    ? '*'
+    : stringToDate(rawStartPer);
+
+  const endPeriod = rawEndPer === '*'
+    ? '*'
+    : stringToDate(rawEndPer);
+
+  if (startPeriod === null) console.warn(`Invalid start period: ${rawStartPer}`);
+  if (endPeriod === null) console.warn(`Invalid end period: ${rawEndPer}`);
+
+  let format = 'HTML';
+  if(rawFormat){
+    const upper = rawFormat.toUpperCase();
+    if(upper === 'CSV' || upper === 'HTML'){
+      format = upper;
+    }
+  }
+  return{
+    startAccount,
+    endAccount,
+    startPeriod,
+    endPeriod,
     format
-  };
+  }
 }
 
 //Dynamic values
